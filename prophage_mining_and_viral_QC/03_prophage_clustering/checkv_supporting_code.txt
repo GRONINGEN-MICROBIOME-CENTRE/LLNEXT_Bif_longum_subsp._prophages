@@ -1,0 +1,28 @@
+https://bitbucket.org/berkeleylab/checkv/src/master/
+
+First, create a blast+ database:
+makeblastdb -in <my_seqs.fna> -dbtype nucl -out <my_db>
+
+Next, use megablast from blast+ package to perform all-vs-all blastn of sequences:
+blastn -query <my_seqs.fna> -db <my_db> -outfmt '6 std qlen slen' -max_target_seqs 10000 -o <my_blast.tsv> -num_threads 32
+
+Next, calculate pairwise ANI by combining local alignments between sequence pairs:
+anicalc.py -i <my_blast.tsv> -o <my_ani.tsv>
+
+Finally, perform CD-HIT-like clustering using the MIUVIG recommended-parameters (95% ANI + 85% AF):
+aniclust.py --fna <my_seqs.fna> --ani <my_ani.tsv> --out <my_clusters.tsv> --min_ani 95 --min_tcov 85 --min_qcov 0
+
+
+
+The file <my_clusters.tsv> contains the clustering results. The first column is the cluster representative, and the second column contains cluster members. The file <my_ani.tsv> contains the pairwise ANI results. The columns are:
+
+query_id: query identifier
+target_id: checkv reference genome identifier
+alignment_count: number of blastn alignments
+ani: average nucleotide identity
+query_coverage: percent of query genome covered by alignments
+target_coverage: percent of target genome covered by alignments
+
+
+
+# Just send me an email if there is anything you're unsure about.

@@ -1,0 +1,15 @@
+Prior to the longitudinal analysis the `annotation` module from PHROAGER (https://github.com/aponsero/PHORAGER) was used for QC of predicted proviral sequences.
+I have included the scripts for manually running CheckV (https://bitbucket.org/berkeleylab/checkv), Pharokka (https://github.com/gbouras13/pharokka) and PHOLD (https://github.com/gbouras13/phold)
+and processing of outputs (see 02_viral_QC).
+
+If you would like to avoid completing each step manually, please run PHORAGER.
+
+First, geNomad (see 01_prophage_identification) was used to predict prophages, which were then inputted into PHORAGER.
+
+The scripts to install and run PHORAGER's `annotation` module are included below:
+
+# Installation of `annotation` module
+phorager install --tools annotation --databases checkv,pharokka,phold
+
+# Run PHORAGER's `annotation` module
+phorager annotation --prophage prophage_results/
